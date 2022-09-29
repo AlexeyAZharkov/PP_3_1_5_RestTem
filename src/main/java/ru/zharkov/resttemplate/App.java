@@ -18,7 +18,12 @@ public class App
 
         Communication communication = context.getBean("communication", Communication.class);
         List<User> allUsers =  communication.getAllUsers();
+
+
         System.out.println(allUsers);
+
+        User userToAdd = new User("James", "Brown", (byte) 34);
+        communication.saveUser(userToAdd);
 
     }
 }
