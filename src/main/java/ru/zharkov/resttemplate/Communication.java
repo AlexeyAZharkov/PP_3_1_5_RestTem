@@ -27,10 +27,7 @@ public class Communication {
         List<User> allUsers = responseEntity.getBody();
         HttpHeaders headers = responseEntity.getHeaders();
         set_cookie = headers.getFirst(headers.SET_COOKIE).split(";")[0];
-//        set_cookie = headers.getFirst(headers.SET_COOKIE).split(";")[0].replaceFirst("JSESSIONID=", "");
-//        set_cookie = headers.getFirst(headers.SET_COOKIE);
-//        set_cookie = headers.getFirst(headers.SET_COOKIE).get(0);
-
+// set_cookie отсюда видимо не доживали до ПУТ метода... взял эти куки после ПОСТ метода
         return allUsers;
     }
 
@@ -52,41 +49,28 @@ public class Communication {
 
     public void saveUser (User user) {
 
-//        ResponseEntity<String> responseEntity = restTemplate.postForEntity(URL, user, String.class);
         HttpHeaders requestHeaders = new HttpHeaders();
-//        requestHeaders.add("Cookie", set_cookie);
         HttpEntity requestEntity = new HttpEntity(user, requestHeaders);
         ResponseEntity responseEntity = restTemplate.exchange(URL, HttpMethod.POST, requestEntity, String.class);
+
+        // set_cookie отсюда беру для ПУТ и Делите метода
         HttpHeaders headers = responseEntity.getHeaders();
         set_cookie = headers.getFirst(headers.SET_COOKIE).split(";")[0];
-        System.out.println("post = " + responseEntity.getBody());
 
+        System.out.println("post = " + responseEntity.getBody());
     }
 
         public void editUser(User user) {
 
             HttpHeaders requestHeaders = new HttpHeaders();
-//            requestHeaders.add(MediaType.APPLICATION_JSON);
-//            requestHeaders.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
             requestHeaders.add("Cookie", set_cookie);
+
             System.out.println(requestHeaders);
+
             HttpEntity requestEntity = new HttpEntity(user, requestHeaders);
-
             ResponseEntity responseEntity = restTemplate.exchange(URL, HttpMethod.PUT, requestEntity, String.class);
-            System.out.println(responseEntity.getBody());
-//            restTemplate.put(URL, user);
+            System.out.println("PUT = " + responseEntity.getBody());
             }
-
-
-
-//    RestTemplate restTemplate = new RestTemplate();
-//    HttpHeaders requestHeaders = new HttpHeaders();
-// requestHeaders.add("Cookie", "credentials=" + secret);
-//
-//    HttpEntity requestEntity = new HttpEntity(null, requestHeaders);
-//
-//    ResponseEntity response = restTemplate.exchange(url, HttpMethod.POST, requestEntity, Users.class);
-//    Users users = (Users) response.getBody();
 
     public void deleteUser(Long id) {
 
@@ -96,9 +80,7 @@ public class Communication {
         HttpEntity requestEntity = new HttpEntity(null, requestHeaders);
 
         ResponseEntity responseEntity = restTemplate.exchange(URL + "/" + id, HttpMethod.DELETE, requestEntity, String.class);
-        System.out.println(responseEntity.getBody());
-
-//        restTemplate.delete(URL + "/" + id);
+        System.out.println("DELETE = " + responseEntity.getBody());
 
     }
 }

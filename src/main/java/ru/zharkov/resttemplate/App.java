@@ -19,7 +19,6 @@ public class App
         Communication communication = context.getBean("communication", Communication.class);
         List<User> allUsers =  communication.getAllUsers();
 
-
         System.out.println(allUsers);
         System.out.println(communication.getCookie());
 
@@ -28,16 +27,9 @@ public class App
 
         System.out.println(communication.getCookie());
 
-//        List<User> allUsers1 =  communication.getAllUsers();
-//        System.out.println(allUsers1);
-//        System.out.println(communication.getCookie());
-
         User userToEdit = new User(3L,"Thomas", "Shelby", (byte) 34);
         communication.editUser(userToEdit);
 
-//        List<User> allUsers1 =  communication.getAllUsers();
-//        System.out.println(allUsers1);
-//
         communication.deleteUser(3L);
 
     }
